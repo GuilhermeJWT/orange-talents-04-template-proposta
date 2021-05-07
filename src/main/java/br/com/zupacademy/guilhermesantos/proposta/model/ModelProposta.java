@@ -8,12 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
-
-import br.com.zupacademy.guilhermesantos.proposta.anotation.ValidDocumentCpfCnpj;
 
 @Entity
 @Table(name = "propostas")
@@ -25,12 +22,10 @@ public class ModelProposta implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ValidDocumentCpfCnpj(domainClass = ModelProposta.class, fieldName = "documento", message = "Documento Inválido!")
-	@NotEmpty(message = "O Documento deve ser Informado@")
+	@NotEmpty(message = "O Documento deve ser Informado!")
 	private String documento;
 	
 	@NotBlank(message = "O Documento deve ser Informado!")
-	@Email(message = "Formato de E-mail Inválido!")
 	private String email;
 	
 	@NotBlank(message = "O Nome deve ser Informado!")
@@ -40,7 +35,19 @@ public class ModelProposta implements Serializable{
 	private String endereco;
 	
 	@Positive(message = "O Salário não pode ser Menor ou igual a 0!")
-	@NotBlank(message = "O Salário deve ser Informado!")
 	private BigDecimal salario;
 
+	public ModelProposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+		this.documento = documento;
+		this.email = documento;
+		this.nome = nome;
+		this.endereco = endereco;
+		this.salario = salario;
+	}
+	
+	@Deprecated
+	public ModelProposta() {
+		
+	}
+	
 }
