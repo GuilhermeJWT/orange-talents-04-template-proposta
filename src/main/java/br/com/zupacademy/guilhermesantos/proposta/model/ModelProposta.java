@@ -14,26 +14,26 @@ import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "propostas")
-public class ModelProposta implements Serializable{
+public class ModelProposta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotEmpty(message = "O Documento deve ser Informado!")
 	private String documento;
-	
+
 	@NotBlank(message = "O Documento deve ser Informado!")
 	private String email;
-	
+
 	@NotBlank(message = "O Nome deve ser Informado!")
 	private String nome;
-	
+
 	@NotBlank(message = "O Endereço deve ser Informado!")
 	private String endereco;
-	
+
 	@Positive(message = "O Salário não pode ser Menor ou igual a 0!")
 	private BigDecimal salario;
 
@@ -44,10 +44,34 @@ public class ModelProposta implements Serializable{
 		this.endereco = endereco;
 		this.salario = salario;
 	}
-	
+
 	@Deprecated
 	public ModelProposta() {
-		
+
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public BigDecimal getSalario() {
+		return salario;
+	}
+
 }
