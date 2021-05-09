@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
+
+import br.com.zupacademy.guilhermesantos.proposta.enums.StatusProposta;
 
 @Entity
 @Table(name = "propostas")
@@ -36,6 +40,9 @@ public class ModelProposta implements Serializable {
 
 	@Positive(message = "O Salário não pode ser Menor ou igual a 0!")
 	private BigDecimal salario;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusProposta statusProposta;
 
 	public ModelProposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
 		this.documento = documento;
@@ -72,6 +79,14 @@ public class ModelProposta implements Serializable {
 
 	public BigDecimal getSalario() {
 		return salario;
+	}
+	
+	public StatusProposta getStatusProposta() {
+		return statusProposta;
+	}
+	
+	public void setStatusProposta(StatusProposta statusProposta) {
+		this.statusProposta = statusProposta;
 	}
 
 }
