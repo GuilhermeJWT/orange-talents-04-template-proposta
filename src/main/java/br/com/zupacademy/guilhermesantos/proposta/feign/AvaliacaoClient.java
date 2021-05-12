@@ -12,7 +12,7 @@ import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteRespon
 @Component
 public interface AvaliacaoClient {
 	
-	@PostMapping(value = "/solicitacao", produces = "application/json")
+	@PostMapping(value = "/solicitacao")
 	public AvaliacaoSolicitanteResponseDTO avaliaSolicitacao(@RequestBody AvaliacaoSolicitanteRequestDTO requestDTO);
 
 }
