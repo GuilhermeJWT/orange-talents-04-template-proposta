@@ -9,8 +9,7 @@ public class AvaliacaoSolicitanteResponseDTO {
 	private String documento;
 	private StatusFinalSolicitacao statusFinalSolicitacao;
 
-	public AvaliacaoSolicitanteResponseDTO(Long id, String nome, String documento,
-			StatusFinalSolicitacao statusFinalSolicitacao) {
+	public AvaliacaoSolicitanteResponseDTO(Long id, String nome, String documento, StatusFinalSolicitacao statusFinalSolicitacao) {
 		this.id = id;
 		this.nome = nome;
 		this.documento = documento;

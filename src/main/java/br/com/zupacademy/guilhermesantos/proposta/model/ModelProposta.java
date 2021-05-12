@@ -42,7 +42,7 @@ public class ModelProposta implements Serializable {
 	private BigDecimal salario;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusProposta statusProposta;
+	private StatusProposta statusProposta = StatusProposta.NAO_ELEGIVEL;
 
 	public ModelProposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
 		this.documento = documento;

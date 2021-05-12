@@ -32,7 +32,7 @@ public class ModelPropostaDTO {
 	@Positive(message = "O Salário não pode ser Menor ou igual a 0!")
 	@NotNull(message = "O Salário deve ser Informado!")
 	private BigDecimal salario;
-
+	
 	public ModelProposta converte() {
 		return new ModelProposta(this.documento, this.email, this.nome, this.endereco, this.salario);
 	}
