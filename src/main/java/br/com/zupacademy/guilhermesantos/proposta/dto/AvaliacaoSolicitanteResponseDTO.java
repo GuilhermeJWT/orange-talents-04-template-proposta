@@ -4,20 +4,20 @@ import br.com.zupacademy.guilhermesantos.proposta.enums.StatusFinalSolicitacao;
 
 public class AvaliacaoSolicitanteResponseDTO {
 
-	private Long id;
+	private Long idProposta;
 	private String nome;
 	private String documento;
 	private StatusFinalSolicitacao statusFinalSolicitacao;
 
-	public AvaliacaoSolicitanteResponseDTO(Long id, String nome, String documento, StatusFinalSolicitacao statusFinalSolicitacao) {
-		this.id = id;
+	public AvaliacaoSolicitanteResponseDTO(Long idProposta, String nome, String documento, StatusFinalSolicitacao statusFinalSolicitacao) {
+		this.idProposta = idProposta;
 		this.nome = nome;
 		this.documento = documento;
 		this.statusFinalSolicitacao = statusFinalSolicitacao;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdProposta() {
+		return idProposta;
 	}
 
 	public String getNome() {

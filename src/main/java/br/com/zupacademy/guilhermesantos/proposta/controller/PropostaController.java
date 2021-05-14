@@ -2,6 +2,7 @@ package br.com.zupacademy.guilhermesantos.proposta.controller;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import feign.FeignException;
 
 @RestController
 @RequestMapping(value = "/proposta")
-public class PorpostaController {
+public class PropostaController {
 	
 	@Autowired
 	private PropostaRepository repository;
@@ -31,6 +32,7 @@ public class PorpostaController {
 	private AvaliacaoClient avaliacaoClient;
 	
 	@PostMapping(value = "/salvar")
+	@Transactional
 	public ResponseEntity<?> salvaProposta(@RequestBody @Valid ModelPropostaDTO modelPropostaDTO, UriComponentsBuilder componentBuilder){
 		
 		boolean valida = repository.existsByDocumento(modelPropostaDTO.getDocumento());
@@ -39,16 +41,16 @@ public class PorpostaController {
 			return ResponseEntity.unprocessableEntity().body("");
 		}
 		
-		var avaliacao = modelPropostaDTO.converte();
-		var modelProposta = repository.save(avaliacao);
+		ModelProposta modelProposta = modelPropostaDTO.converte();
+		ModelProposta salva = repository.save(modelProposta);
 		
 		try {
-			var validandoRequisicao = new AvaliacaoSolicitanteRequestDTO(modelProposta.getId(), modelProposta.getNome(), modelProposta.getDocumento());
-		
+			AvaliacaoSolicitanteRequestDTO validandoRequisicao = new AvaliacaoSolicitanteRequestDTO(modelProposta.getDocumento(), modelProposta.getNome(), modelProposta.getId());
+
 			avaliacaoClient.avaliaSolicitacao(validandoRequisicao);
 			modelProposta.setStatusProposta(StatusProposta.ELEGIVEL);
 		
-		}catch(FeignException exception) {
+		}catch(FeignException.UnprocessableEntity exception) {
 			modelProposta.setStatusProposta(StatusProposta.NAO_ELEGIVEL);
 		}
 		
@@ -59,26 +61,4 @@ public class PorpostaController {
 		return  ResponseEntity.created(uri).build();
 		
 	}
-	
-	/*
-	 
-	@PostMapping(value = "/salvar")
-	public ResponseEntity<?> salvaProposta(@RequestBody @Valid ModelPropostaDTO modelPropostaDTO, UriComponentsBuilder componentBuilder){
-		
-		boolean valida = repository.existsByDocumento(modelPropostaDTO.getDocumento());
-		
-		if(valida) {
-			return ResponseEntity.unprocessableEntity().body("");
-		}
-		
-		ModelProposta modelProposta = modelPropostaDTO.converte();
-		repository.save(modelProposta);
-		
-		URI uri = componentBuilder.path("/proposta/salvar/{id}").build(modelProposta.getId());
-		return  ResponseEntity.created(uri).build();
-		
-	}
-
-	 */
-	
 }
