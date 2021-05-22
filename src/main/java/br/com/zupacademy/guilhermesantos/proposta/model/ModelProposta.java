@@ -3,13 +3,7 @@ package br.com.zupacademy.guilhermesantos.proposta.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
@@ -43,6 +37,9 @@ public class ModelProposta implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusProposta statusProposta = StatusProposta.NAO_ELEGIVEL;
+
+	@OneToOne(cascade =  CascadeType.MERGE, orphanRemoval = true)
+	private ModelCartao cartao;
 
 	public ModelProposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
 		this.documento = documento;
