@@ -3,6 +3,7 @@ package br.com.zupacademy.guilhermesantos.proposta.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cartao")
@@ -40,5 +41,18 @@ public class ModelCartao implements Serializable {
 
     public ModelProposta getProposta() {
         return proposta;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModelCartao)) return false;
+        ModelCartao that = (ModelCartao) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

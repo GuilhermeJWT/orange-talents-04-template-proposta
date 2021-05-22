@@ -2,6 +2,7 @@ package br.com.zupacademy.guilhermesantos.proposta.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -49,6 +50,14 @@ public class ModelProposta implements Serializable {
 		this.salario = salario;
 	}
 
+	public void associaCartao(ModelCartao modelCartao){
+		this.cartao = modelCartao;
+	}
+
+	public void adicionaRestricao(StatusProposta ELEGIVEL){
+		this.statusProposta = ELEGIVEL;
+	}
+
 	@Deprecated
 	public ModelProposta() {
 
@@ -86,4 +95,16 @@ public class ModelProposta implements Serializable {
 		this.statusProposta = statusProposta;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ModelProposta)) return false;
+		ModelProposta that = (ModelProposta) o;
+		return getId().equals(that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
+	}
 }
