@@ -1,16 +1,16 @@
 package br.com.zupacademy.guilhermesantos.proposta.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteRequestDTO;
@@ -26,23 +26,35 @@ import feign.FeignException;
 public class PropostaController {
 	
 	@Autowired
-	private PropostaRepository repository;
+	private PropostaRepository propostaRepository;
 	
 	@Autowired
 	private AvaliacaoClient avaliacaoClient;
+
+	@GetMapping("/acompanhamento/{id}")
+	public ResponseEntity<AvaliacaoSolicitanteResponseDTO> verificaAcompanhamentoProposta(@PathVariable("id") Long id){
+		Optional<ModelProposta> modelProposta = propostaRepository.findById(id);
+		/*Verifica se possui proposta e Retorna pro Cliente*/
+		if(!modelProposta.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+
+		return ResponseEntity.ok(new AvaliacaoSolicitanteResponseDTO(modelProposta));
+
+	}
 	
 	@PostMapping(value = "/salvar")
 	@Transactional
 	public ResponseEntity<?> salvaProposta(@RequestBody @Valid ModelPropostaDTO modelPropostaDTO, UriComponentsBuilder componentBuilder){
 		
-		boolean valida = repository.existsByDocumento(modelPropostaDTO.getDocumento());
+		boolean valida = propostaRepository.existsByDocumento(modelPropostaDTO.getDocumento());
 		
 		if(valida) {
 			return ResponseEntity.unprocessableEntity().body("");
 		}
 		
 		ModelProposta modelProposta = modelPropostaDTO.converte();
-		ModelProposta salva = repository.save(modelProposta);
+		ModelProposta salva = propostaRepository.save(modelProposta);
 		
 		try {
 			AvaliacaoSolicitanteRequestDTO validandoRequisicao = new AvaliacaoSolicitanteRequestDTO(modelProposta.getDocumento(), modelProposta.getNome(), modelProposta.getId());
@@ -55,7 +67,7 @@ public class PropostaController {
 		}
 		
 		ModelProposta propostaSalva = modelPropostaDTO.converte();
-		repository.save(propostaSalva);
+		propostaRepository.save(propostaSalva);
 		
 		URI uri = componentBuilder.path("/proposta/salvar/{id}").build(modelProposta.getId());
 		return  ResponseEntity.created(uri).build();
