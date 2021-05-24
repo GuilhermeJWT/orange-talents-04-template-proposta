@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteRequestDTO;
 import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteResponseDTO;
 
-@FeignClient(value = "solicitacao", url = "http://localhost:9999/api")
+@FeignClient(value = "analises", url = "${analises.host}")
 @Component
 public interface AvaliacaoClient {
 	
-	@PostMapping(value = "/solicitacao")
+	@PostMapping
 	public AvaliacaoSolicitanteResponseDTO avaliaSolicitacao(@RequestBody AvaliacaoSolicitanteRequestDTO requestDTO);
 
 }

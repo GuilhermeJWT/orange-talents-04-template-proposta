@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "bloqueio")
@@ -25,12 +26,12 @@ public class ModelBloqueio implements Serializable {
     private String userAgent;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    private ModelCartao cartao;
+    private Optional<ModelCartao> cartao;
 
-    public ModelBloqueio(String ipRemotoCliente, String userAgent, ModelCartao cartao) {
+    public ModelBloqueio(Optional<ModelCartao> cartao, String ipRemotoCliente, String userAgent) {
+        this.cartao = cartao;
         this.ipRemotoCliente = ipRemotoCliente;
         this.userAgent = userAgent;
-        this.cartao = cartao;
     }
 
     @Deprecated
@@ -54,7 +55,7 @@ public class ModelBloqueio implements Serializable {
         return userAgent;
     }
 
-    public ModelCartao getCartao() {
+    public Optional<ModelCartao> getCartao() {
         return cartao;
     }
 
