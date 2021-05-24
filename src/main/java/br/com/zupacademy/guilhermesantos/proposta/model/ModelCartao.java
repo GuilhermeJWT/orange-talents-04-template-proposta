@@ -1,5 +1,7 @@
 package br.com.zupacademy.guilhermesantos.proposta.model;
 
+import br.com.zupacademy.guilhermesantos.proposta.enums.StatusBloqueioCartao;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -19,6 +21,9 @@ public class ModelCartao implements Serializable {
     @NotEmpty(message = "O Número do Cartão deve ser Informado!")
     private String numeroCartao;
 
+    @Enumerated(EnumType.STRING)
+    private StatusBloqueioCartao statusBloqueioCartao;
+
     @OneToOne(mappedBy = "cartao", cascade = CascadeType.ALL, orphanRemoval = true)
     private ModelProposta proposta;
 
@@ -31,6 +36,10 @@ public class ModelCartao implements Serializable {
     public ModelCartao(String id, ModelProposta proposta){
         this.numeroCartao = id;
         this.proposta = proposta;
+    }
+
+    public void adicionaBloqueioCartao(){
+        this.statusBloqueioCartao = StatusBloqueioCartao.BLOQUEADO;
     }
 
     @Deprecated
@@ -56,6 +65,10 @@ public class ModelCartao implements Serializable {
 
     public ModelBloqueio getBloqueio() {
         return bloqueio;
+    }
+
+    public StatusBloqueioCartao getStatusBloqueioCartao() {
+        return statusBloqueioCartao;
     }
 
     @Override

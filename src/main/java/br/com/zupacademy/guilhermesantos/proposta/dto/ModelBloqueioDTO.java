@@ -15,8 +15,19 @@ public class ModelBloqueioDTO {
     @NotBlank(message = "O User deve Existir!")
     private String userAgent;
 
+    @NotBlank(message = "Não pode ser Vazio!")
+    private String sistemaRemoto;
+
+    public ModelBloqueio converteDadosBloqueio(Optional<ModelCartao> modelCartao, String ip, String userAgent){
+        return new ModelBloqueio(modelCartao, ip, userAgent);
+    }
+
     public ModelBloqueio converte(Optional<ModelCartao> cartao, HttpServletRequest request){
         return new ModelBloqueio(cartao, request.getRemoteAddr(), request.getHeader("User-Agent"));
+    }
+
+    public ModelBloqueioDTO(String sistemaRemoto){
+        this.sistemaRemoto = sistemaRemoto;
     }
 
     public ModelBloqueioDTO(String ipRemotoCliente, String userAgent) {

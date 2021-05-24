@@ -8,10 +8,7 @@ import br.com.zupacademy.guilhermesantos.proposta.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -37,7 +35,7 @@ public class BloqueioController {
 
     @PostMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> salvaBloqueioCartao(@PathVariable("id") Long id, HttpServletRequest request, ModelBloqueioDTO modelBloqueioDTO, UriComponentsBuilder builder){
+    public ResponseEntity<?> salvaBloqueioCartao(@PathVariable("id") Long id, HttpServletRequest request, @RequestBody @Valid ModelBloqueioDTO modelBloqueioDTO, UriComponentsBuilder builder){
         Optional<ModelCartao> modelCartao = cartaoRepository.findById(id);
 
         /*Valida se o Cartão existe, se não lança um 404*/
