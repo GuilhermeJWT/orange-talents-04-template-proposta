@@ -29,14 +29,14 @@ public class ModelBiometria implements Serializable {
         this.fingerPrintBiometria = fingerPrintBiometria;
     }
 
-    @Deprecated
-    public ModelBiometria(){
-
-    }
-
     public ModelBiometria(ModelCartao modelCartao, byte[] fingerPrintBiometriaBase64) {
         this.cartao = modelCartao;
         this.fingerPrintBiometria = fingerPrintBiometriaBase64;
+    }
+
+    @Deprecated
+    public ModelBiometria(){
+
     }
 
     public Long getId() {
