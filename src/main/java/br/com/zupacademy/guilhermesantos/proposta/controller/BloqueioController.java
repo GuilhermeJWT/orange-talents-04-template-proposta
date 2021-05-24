@@ -44,6 +44,7 @@ public class BloqueioController {
         if(modelCartao.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
         /*Valida o Cartão, caso já esteja bloqueado ele vai lançar 422 pro Cliente*/
         if(modelCartao.get().getBloqueio() != null){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,"OPS! O Cartão já está Bloqueado!");

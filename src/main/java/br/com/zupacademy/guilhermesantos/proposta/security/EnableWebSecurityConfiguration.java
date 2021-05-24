@@ -3,10 +3,12 @@ package br.com.zupacademy.guilhermesantos.proposta.security;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 
 @Configuration
+@EnableWebSecurity
 public class EnableWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -18,6 +20,8 @@ public class EnableWebSecurityConfiguration extends WebSecurityConfigurerAdapter
                         .antMatchers(HttpMethod.GET, "/api/cartoes/**").hasAuthority("SCOPE_cartoes:read")
                         .antMatchers(HttpMethod.POST, "/api/cartoes/**").hasAuthority("SCOPE_cartoes:write")
                         .antMatchers(HttpMethod.POST, "/api/propostas/**").hasAuthority("SCOPE_propostas:write")
+                        .antMatchers(HttpMethod.POST, "/bloqueio/**").hasAuthority("SCOPE_propostas")
+                        .antMatchers(HttpMethod.POST, "/propostas/**").hasAuthority("SCOPE_propostas")
                         .anyRequest().authenticated()
         )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

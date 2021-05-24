@@ -12,6 +12,9 @@ public class ModelBloqueioDTO {
     @NotBlank(message = "Deve existir um IP!")
     private String ipRemotoCliente;
 
+    @NotBlank(message = "O User deve Existir!")
+    private String userAgent;
+
     public ModelBloqueio converte(Optional<ModelCartao> cartao, HttpServletRequest request){
         return new ModelBloqueio(cartao, request.getRemoteAddr(), request.getHeader("User-Agent"));
     }
@@ -20,9 +23,6 @@ public class ModelBloqueioDTO {
         this.ipRemotoCliente = ipRemotoCliente;
         this.userAgent = userAgent;
     }
-
-    @NotBlank(message = "O User deve Existir!")
-    private String userAgent;
 
     public String getIpRemotoCliente() {
         return ipRemotoCliente;
