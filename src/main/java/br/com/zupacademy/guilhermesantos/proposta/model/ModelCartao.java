@@ -3,6 +3,7 @@ package br.com.zupacademy.guilhermesantos.proposta.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,8 +19,11 @@ public class ModelCartao implements Serializable {
     @NotEmpty(message = "O Número do Cartão deve ser Informado!")
     private String numeroCartao;
 
-    @OneToOne(mappedBy = "cartao")
+    @OneToOne(mappedBy = "cartao", cascade = CascadeType.ALL, orphanRemoval = true)
     private ModelProposta proposta;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ModelBiometria> biometrias;
 
     public ModelCartao(String id, ModelProposta proposta){
         this.numeroCartao = id;
@@ -41,6 +45,10 @@ public class ModelCartao implements Serializable {
 
     public ModelProposta getProposta() {
         return proposta;
+    }
+
+    public List<ModelBiometria> getBiometrias() {
+        return biometrias;
     }
 
     @Override

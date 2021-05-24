@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BiometriaRepository extends JpaRepository<ModelBiometria, Long> {
-    
+
 }

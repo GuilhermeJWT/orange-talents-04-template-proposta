@@ -1,7 +1,6 @@
 package br.com.zupacademy.guilhermesantos.proposta.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,8 +16,7 @@ public class ModelBiometria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "A Data do Cadastro deve ser Informada!")
-    private LocalDateTime instanteCadastro;
+    private LocalDateTime instanteCadastro = LocalDateTime.now();
 
     @NotNull(message = "A Biometria deve ser Informada!")
     private byte[] fingerPrintBiometria;
@@ -26,6 +24,20 @@ public class ModelBiometria implements Serializable {
     @NotNull(message = "O Cartão deve ser Informado!")
     @ManyToOne(optional = false)
     private ModelCartao cartao;
+
+    public ModelBiometria(byte[] fingerPrintBiometria) {
+        this.fingerPrintBiometria = fingerPrintBiometria;
+    }
+
+    @Deprecated
+    public ModelBiometria(){
+
+    }
+
+    public ModelBiometria(ModelCartao modelCartao, byte[] fingerPrintBiometriaBase64) {
+        this.cartao = modelCartao;
+        this.fingerPrintBiometria = fingerPrintBiometriaBase64;
+    }
 
     public Long getId() {
         return id;
