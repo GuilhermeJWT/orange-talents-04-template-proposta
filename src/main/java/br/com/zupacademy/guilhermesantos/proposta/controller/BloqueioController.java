@@ -1,10 +1,14 @@
 package br.com.zupacademy.guilhermesantos.proposta.controller;
 
+import br.com.zupacademy.guilhermesantos.proposta.dto.ModelBloqueioCartaoResponseDTO;
 import br.com.zupacademy.guilhermesantos.proposta.dto.ModelBloqueioDTO;
+import br.com.zupacademy.guilhermesantos.proposta.enums.StatusBloqueioCartao;
+import br.com.zupacademy.guilhermesantos.proposta.feign.CartaoClient;
 import br.com.zupacademy.guilhermesantos.proposta.model.ModelBloqueio;
 import br.com.zupacademy.guilhermesantos.proposta.model.ModelCartao;
 import br.com.zupacademy.guilhermesantos.proposta.repository.BloqueioRepository;
 import br.com.zupacademy.guilhermesantos.proposta.repository.CartaoRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,9 @@ public class BloqueioController {
     @Autowired
     private CartaoRepository cartaoRepository;
 
+    @Autowired
+    private CartaoClient cartaoClient;
+
     @PostMapping("/{id}")
     @Transactional
     public ResponseEntity<?> salvaBloqueioCartao(@PathVariable("id") Long id, HttpServletRequest request, @RequestBody @Valid ModelBloqueioDTO modelBloqueioDTO, UriComponentsBuilder builder){
@@ -44,17 +51,28 @@ public class BloqueioController {
         }
 
         /*Valida o Cartão, caso já esteja bloqueado ele vai lançar 422 pro Cliente*/
-        if(modelCartao.get().getBloqueio() != null){
+        if(modelCartao.get().getStatusBloqueioCartao() == StatusBloqueioCartao.BLOQUEADO){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,"OPS! O Cartão já está Bloqueado!");
         }
 
-        ModelBloqueio modelBloqueio = modelBloqueioDTO.converte(modelCartao, request);
-        bloqueioRepository.save(modelBloqueio);
-
-        URI uriRedireciona = builder.path("/bloqueio/{id}").build(modelBloqueio.getId());
-
         /*Retorna 201 pro cliente, Informando que deu tudo certo*/
-        return ResponseEntity.created(uriRedireciona).build();
+        return realizaSolicitacaoBloqueio(modelCartao.get(), modelBloqueioDTO, request, builder);
+
+    }
+
+    public ResponseEntity<?> realizaSolicitacaoBloqueio(ModelCartao modelCartao, @RequestBody @Valid ModelBloqueioDTO modelBloqueioDTO, HttpServletRequest request, UriComponentsBuilder builder){
+        try{
+            ModelBloqueio modelBloqueio = new ModelBloqueio(modelCartao, request.getHeader("User-Agent"));
+
+            modelBloqueio.bloqueiaCartao(modelCartao);
+            modelBloqueio = bloqueioRepository.save(modelBloqueio);
+            cartaoClient.bloqueioCartao(modelCartao.getNumeroCartao(), new ModelBloqueioCartaoResponseDTO(request));
+
+            URI uriRedireciona = builder.path("/bloqueio/{id}").build(modelBloqueio.getId());
+            return ResponseEntity.created(uriRedireciona).build();
+        }catch(FeignException.UnprocessableEntity exceptionFeign){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "OPS! Erro ao tentar Bloquear o Cartão!");
+        }
 
     }
 
