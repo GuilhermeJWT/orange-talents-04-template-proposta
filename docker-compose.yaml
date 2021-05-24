@@ -49,7 +49,7 @@ services:
     environment:
       ANALISES_URL: http://analise:9999/api/solicitacao
       CARTOES_URL: http://contas:8888/api/cartoes
-      DATABASE_URL: jdbc:mysql://mysql:3308/propostas?createDatabaseIfNotExist=true
+      DATABASE_URL: jdbc:mysql://mysql:3308/propostas?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=America/Sao_Paulo"
 
     mysql:
       image: 'mysql:5.7'

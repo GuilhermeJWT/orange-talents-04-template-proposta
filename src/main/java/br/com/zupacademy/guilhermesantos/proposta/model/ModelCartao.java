@@ -25,6 +25,9 @@ public class ModelCartao implements Serializable {
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ModelBiometria> biometrias;
 
+    @OneToOne(mappedBy = "cartao")
+    private ModelBloqueio bloqueio;
+
     public ModelCartao(String id, ModelProposta proposta){
         this.numeroCartao = id;
         this.proposta = proposta;
@@ -49,6 +52,10 @@ public class ModelCartao implements Serializable {
 
     public List<ModelBiometria> getBiometrias() {
         return biometrias;
+    }
+
+    public ModelBloqueio getBloqueio() {
+        return bloqueio;
     }
 
     @Override
