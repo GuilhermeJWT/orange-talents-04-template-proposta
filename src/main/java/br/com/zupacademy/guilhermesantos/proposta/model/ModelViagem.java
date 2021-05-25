@@ -1,6 +1,9 @@
 package br.com.zupacademy.guilhermesantos.proposta.model;
 
+import br.com.zupacademy.guilhermesantos.proposta.enums.StatusViagemCliente;
+
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -36,8 +39,19 @@ public class ModelViagem implements Serializable {
     @NotBlank(message = "User deve ser Informado!")
     private String userAgent;
 
+    @Enumerated(EnumType.STRING)
+    private StatusViagemCliente statusViagemCliente;
+
     @ManyToOne(optional = false)
     private ModelCartao cartao;
+
+    public ModelViagem(HttpServletRequest request, String destino, LocalDate terminoViagem) {
+        this.userAgent = request.getHeader("User-Agent");
+        this.destino = destino;
+        this.ipCliente = request.getRemoteAddr();
+        this.terminoViagem = terminoViagem;
+        this.statusViagemCliente = StatusViagemCliente.VIAGANDO;
+    }
 
     @Deprecated
     public ModelViagem(){
@@ -66,6 +80,14 @@ public class ModelViagem implements Serializable {
 
     public String getUserAgent() {
         return userAgent;
+    }
+
+    public StatusViagemCliente getStatusViagemCliente() {
+        return statusViagemCliente;
+    }
+
+    public ModelCartao getCartao() {
+        return cartao;
     }
 
     @Override

@@ -47,6 +47,10 @@ public class ModelCartao implements Serializable {
         this.statusBloqueioCartao = StatusBloqueioCartao.BLOQUEADO;
     }
 
+    public void adicionaNotificacaoViagem(ModelViagem modelViagem){
+        this.viagem.add(modelViagem);
+    }
+
     @Deprecated
     public ModelCartao(){
 
