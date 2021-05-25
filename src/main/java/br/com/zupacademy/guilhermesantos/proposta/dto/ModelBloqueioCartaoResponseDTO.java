@@ -6,8 +6,12 @@ public class ModelBloqueioCartaoResponseDTO {
 
     private String statusCartao;
 
-    public ModelBloqueioCartaoResponseDTO(HttpServletRequest statusCartao) {
+    public ModelBloqueioCartaoResponseDTO(String statusCartao) {
         this.statusCartao = statusCartao;
+    }
+
+    public ModelBloqueioCartaoResponseDTO(HttpServletRequest request) {
+
     }
 
     public String getStatusCartao() {

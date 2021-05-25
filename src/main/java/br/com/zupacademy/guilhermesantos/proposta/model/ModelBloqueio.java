@@ -28,11 +28,12 @@ public class ModelBloqueio implements Serializable {
     @OneToOne(cascade = CascadeType.MERGE)
     private Optional<ModelCartao> cartao;
 
-    public ModelBloqueio(ModelCartao modelCartao, String header) {
-    }
-
     public void bloqueiaCartao(ModelCartao modelCartao){
         modelCartao.adicionaBloqueioCartao();
+    }
+
+    public ModelBloqueio(ModelCartao modelCartao, String header) {
+
     }
 
     public ModelBloqueio(Optional<ModelCartao> cartao, String ipRemotoCliente, String userAgent) {
