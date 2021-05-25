@@ -38,6 +38,9 @@ public class ModelCartao implements Serializable {
     @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<ModelViagem> viagem = new HashSet<>();
 
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private ModelCarteira carteira;
+
     public ModelCartao(String id, ModelProposta proposta){
         this.numeroCartao = id;
         this.proposta = proposta;
@@ -82,6 +85,10 @@ public class ModelCartao implements Serializable {
 
     public StatusBloqueioCartao getStatusBloqueioCartao() {
         return statusBloqueioCartao;
+    }
+
+    public ModelCarteira getCarteira() {
+        return carteira;
     }
 
     @Override
