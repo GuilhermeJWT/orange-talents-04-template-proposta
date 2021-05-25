@@ -5,8 +5,10 @@ import br.com.zupacademy.guilhermesantos.proposta.enums.StatusBloqueioCartao;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "cartao")
@@ -32,6 +34,9 @@ public class ModelCartao implements Serializable {
 
     @OneToOne(mappedBy = "cartao")
     private ModelBloqueio bloqueio;
+
+    @OneToMany(mappedBy = "cartao",cascade = CascadeType.MERGE, orphanRemoval = true)
+    private Set<ModelViagem> viagem = new HashSet<>();
 
     public ModelCartao(String id, ModelProposta proposta){
         this.numeroCartao = id;
@@ -65,6 +70,10 @@ public class ModelCartao implements Serializable {
 
     public ModelBloqueio getBloqueio() {
         return bloqueio;
+    }
+
+    public Set<ModelViagem> getViagem() {
+        return viagem;
     }
 
     public StatusBloqueioCartao getStatusBloqueioCartao() {
