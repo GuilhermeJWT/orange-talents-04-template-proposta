@@ -16,7 +16,7 @@ public interface CartaoClient {
     @PostMapping("/{id}/avisos")
     public ModelAvisoViagemDTO avisoSobreAViagem(@PathVariable(name = "id") String id, @RequestBody ModelViagemDTO modelViagemDTO);
 
-    @PostMapping("/{id}/carteiras")
+    @PostMapping("/{id}/carteiras")/*Talvez precise mudar futuramente*/
     public ModelCarteiraResponseDTO carteiraAssocia(@PathVariable(name = "id") String id, @RequestBody ModelCarteiraDTO ModelCarteiraDTO);
 
 }

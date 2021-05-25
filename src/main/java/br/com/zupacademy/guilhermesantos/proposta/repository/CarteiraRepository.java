@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface CarteiraRepository extends JpaRepository<ModelCarteira, Long> {
 
-    public Optional<ModelCarteira> findByCartaoAndIdentificadorCarteira(ModelCartao modelCartao, StatusIdentificaCarteira statusIdentificaCarteira);
+    public Optional<ModelCarteira> findByCartaoAndStatusIdentificaCarteira(ModelCartao modelCartao, StatusIdentificaCarteira statusIdentificaCarteira);
 
 }

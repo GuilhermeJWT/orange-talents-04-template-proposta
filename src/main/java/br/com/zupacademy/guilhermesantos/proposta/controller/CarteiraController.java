@@ -36,7 +36,7 @@ public class CarteiraController {
     public ResponseEntity<?> salvaAssciaCarteira(@PathVariable("id") Long id, @RequestBody @Valid ModelCarteiraDTO modelCarteiraDTO, UriComponentsBuilder builder){
 
         Optional<ModelCartao> modelCartao = cartaoRepository.findById(id);
-        Optional<ModelCarteira> modelCarteira = carteiraRepository.findByCartaoAndIdentificadorCarteira(modelCartao.get(), modelCarteiraDTO.getStatusIdentificaCarteira());
+        Optional<ModelCarteira> modelCarteira = carteiraRepository.findByCartaoAndStatusIdentificaCarteira(modelCartao.get(), modelCarteiraDTO.getStatusIdentificaCarteira());
 
         if(modelCartao.isEmpty() || !modelCartao.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "OPS! Cartão não encontrado - 404");
