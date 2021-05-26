@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import br.com.zupacademy.guilhermesantos.proposta.dto.AvaliacaoSolicitanteResponseDTO;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,9 @@ public class PropostaController {
 	
 	@Autowired
 	private AvaliacaoClient avaliacaoClient;
+
+	@Autowired
+	private Tracer tracer;
 
 	@GetMapping("/acompanhamento/{id}")
 	public ResponseEntity<AvaliacaoSolicitanteResponseDTO> verificaAcompanhamentoProposta(@PathVariable("id") Long id){
@@ -57,6 +62,11 @@ public class PropostaController {
 		ModelProposta salva = propostaRepository.save(modelProposta);
 		
 		try {
+
+			Span activeSpan = tracer.activeSpan();
+			activeSpan.setTag("user.email", "guilhermezup@teste.com");
+			activeSpan.log("Testando Log");
+
 			AvaliacaoSolicitanteRequestDTO validandoRequisicao = new AvaliacaoSolicitanteRequestDTO(modelProposta.getDocumento(), modelProposta.getNome(), modelProposta.getId());
 
 			avaliacaoClient.avaliaSolicitacao(validandoRequisicao);
