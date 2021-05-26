@@ -17,12 +17,7 @@ public class ModelCarteiraDTO {
     private StatusIdentificaCarteira statusIdentificaCarteira;
 
     public ModelCarteira converte(ModelCartao modelCartao, String id){
-        return new ModelCarteira(email, modelCartao, id);
-    }
-
-    public ModelCarteiraDTO(String email, StatusIdentificaCarteira statusIdentificaCarteira) {
-        this.email = email;
-        this.statusIdentificaCarteira = statusIdentificaCarteira;
+        return new ModelCarteira(email, modelCartao, id, statusIdentificaCarteira);
     }
 
     public String getEmail() {

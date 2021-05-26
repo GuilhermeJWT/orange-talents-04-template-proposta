@@ -32,11 +32,11 @@ public class ModelCarteira implements Serializable {
     @ManyToOne(optional = false)
     private ModelCartao cartao;
 
-    public ModelCarteira(String email, String associaId, StatusIdentificaCarteira statusIdentificaCarteira, ModelCartao cartao) {
+    public ModelCarteira(String email, ModelCartao modelCartao, String id, StatusIdentificaCarteira statusIdentificaCarteira) {
         this.email = email;
-        this.associaId = associaId;
-        this.statusIdentificaCarteira = StatusIdentificaCarteira.PAYPAL;
-        this.cartao = cartao;
+        this.cartao = modelCartao;
+        this.associaId = id;
+        this.statusIdentificaCarteira = statusIdentificaCarteira;
     }
 
     @Deprecated

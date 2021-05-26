@@ -6,7 +6,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 public enum StatusIdentificaCarteira {
 
-    PAYPAL;
+    PAYPAL,
+    SAMSUNG_PLAY;
 
     @JsonCreator
     public static StatusIdentificaCarteira retorna(String value) {
