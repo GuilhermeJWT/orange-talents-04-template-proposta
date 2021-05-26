@@ -34,7 +34,7 @@ public class ModelPropostaDTO {
 	private BigDecimal salario;
 
 	public ModelProposta converte() {
-		return new ModelProposta(this.documento, this.email, this.nome, this.endereco, this.salario);
+		return new ModelProposta(this.email, this.nome, this.endereco, this.salario, new CriptografaDocumentoClienteDTO(documento));
 	}
 
 	public ModelPropostaDTO(String documento, String email, String nome, String endereco, BigDecimal salario) {

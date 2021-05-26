@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
+import br.com.zupacademy.guilhermesantos.proposta.dto.CriptografaDocumentoClienteDTO;
 import br.com.zupacademy.guilhermesantos.proposta.enums.StatusProposta;
 
 @Entity
@@ -42,12 +43,12 @@ public class ModelProposta implements Serializable {
 	@OneToOne(cascade =  CascadeType.MERGE, orphanRemoval = true)
 	private ModelCartao cartao;
 
-	public ModelProposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
-		this.documento = documento;
-		this.email = documento;
-		this.nome = nome;
-		this.endereco = endereco;
-		this.salario = salario;
+	public ModelProposta(String email, String nome, String endereco, BigDecimal salario, CriptografaDocumentoClienteDTO criptografaDocumentoClienteDTO) {
+	   this.email = email;
+	   this.nome = nome;
+	   this.endereco = endereco;
+	   this.salario = salario;
+	   this.documento = criptografaDocumentoClienteDTO.criptografaDocumento();
 	}
 
 	public void associaCartao(ModelCartao modelCartao){
